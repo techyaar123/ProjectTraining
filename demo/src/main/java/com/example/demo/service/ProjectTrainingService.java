@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -97,6 +98,16 @@ public class ProjectTrainingService {
 	{
 		productReposistory.deleteById(id);
 		return "Product deleted";
+	}
+	
+	public List<String> getAllProductNameAbove10000Service(){
+		List<Product> products=productReposistory.findAll();
+		List<String>names=products.stream().filter(
+				p->p.getPrice()>10000)
+				.map(p->p.getTitle()
+		).collect(Collectors.toList());
+		
+		return names;
 	}
 	
 }

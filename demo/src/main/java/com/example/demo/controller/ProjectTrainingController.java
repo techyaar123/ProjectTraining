@@ -71,5 +71,9 @@ public class ProjectTrainingController {
 	{
 		return service.deleteProductService(id);
 	}
+	@GetMapping("/products/getNamesAbove1000")
+	public List<String> getAllProductNameAbove10000(){
+		return service.getAllProductNameAbove10000Service();
+	}
 	
 }
