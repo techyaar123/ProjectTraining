@@ -10,6 +10,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document (collection="Products")
 public class Product {
 
+	public Product(long id, @NotBlank(message = "title should not be blank") @NotNull String title,
+			@NotBlank(message = "description should not be blank") @NotNull String description, @Min(1) double price,
+			@Min(1) int stocks, @NotBlank(message = "brand should not be blank") @NotNull String brand,
+			@NotBlank(message = "category should not be blank") @NotNull String category,
+			@NotBlank(message = "image should not be blank") @NotNull String images) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.price = price;
+		this.stocks = stocks;
+		this.brand = brand;
+		this.category = category;
+		this.images = images;
+	}
 	@Transient
 	public static final String SEQUENCE_NAME = "products_sequence";
 	@Id

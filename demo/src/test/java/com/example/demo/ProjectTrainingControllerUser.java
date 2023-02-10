@@ -23,7 +23,7 @@ import com.example.demo.service.SequenceGeneratorService;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class ProjectTrainingControllerTest {
+class ProjectTrainingControllerUser {
 	
 	@Autowired
 	private UserReposistory userReposistory;
@@ -42,7 +42,7 @@ class ProjectTrainingControllerTest {
 			user.setRole("Vendor");
 			user.setEmailId("abhinav12@gmail.com");
 	    }
-//	    @AfterEach
+
 @Order(value = 1)
 	@Test
 	public void testCreateUser() {
