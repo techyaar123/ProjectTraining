@@ -1,4 +1,8 @@
 package com.example.demo.model;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -10,9 +14,13 @@ public class Product {
 	public static final String SEQUENCE_NAME = "products_sequence";
 	@Id
 	private long id;
-	
+	@NotBlank(message="title should not be blank")
+	@NotNull
 	private String title;
+	@NotBlank(message="description should not be blank")
+	@NotNull
 	private String description;
+	@Min(1)
 	private double price;
 	
 	
@@ -71,9 +79,15 @@ public class Product {
 	public void setImages(String images) {
 		this.images = images;
 	}
-	
+	@Min(1)
 	private int stocks;
+	@NotBlank(message="brand should not be blank")
+	@NotNull
 	private String brand;
+	@NotBlank(message="category should not be blank")
+	@NotNull
 	private String category;
+	@NotBlank(message="image should not be blank")
+	@NotNull
 	private String images;
 }

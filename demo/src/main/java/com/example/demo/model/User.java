@@ -1,11 +1,26 @@
 package com.example.demo.model;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import lombok.Builder;
+
+@Builder
 @Document (collection="User")
 public class User {
+
+	
+
+
+	public User() {
+		// TODO Auto-generated constructor stub
+	}
+
 
 	@Transient
 	public static final String SEQUENCE_NAME = "users_sequence";
@@ -14,10 +29,12 @@ public class User {
 	
 	
 	
-
+	@NotBlank(message="password shouldn't be blank")
 	private String password;
 	
+	
 	@Indexed(unique=true)
+	@NotBlank(message="username shouldn't be null ")
 	private String username;
 
 	
@@ -79,9 +96,10 @@ public class User {
 
 
 	@Indexed(unique=true)
+	@Email(message="invalid email")
 	private String emailId;
 	
-	
+	@NotBlank(message="Role should not be blank")
 	private String role;
 	
 	

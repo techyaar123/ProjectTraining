@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
 import java.util.List;
-import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,86 +13,63 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.model.Product;
 import com.example.demo.model.User;
-import com.example.demo.reposistory.ProductReposistory;
-import com.example.demo.reposistory.UserReposistory;
-import com.example.demo.service.SequenceGeneratorService;
+import com.example.demo.service.ProjectTrainingService;
 
 @RestController
 public class ProjectTrainingController {
 	
 	@Autowired
-	private SequenceGeneratorService sequenceGeneratorService;
-
-	@Autowired
-	private UserReposistory userReposistory;
-	
-	@Autowired
-	private ProductReposistory productReposistory;
+	private ProjectTrainingService service;
 	
 	@PostMapping("/register")
-	public User createUser( @RequestBody User user) {
-		System.out.println(user);
-		user.setId(sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME));
-		
-		return userReposistory.save(user);
+	public User createUser( @RequestBody @Valid User user) {
+		return service.createUserService(user);
 	}
 	
 	@GetMapping("/AllUsers")
 	public List<User> getAllUser(){
-		List<User> users=userReposistory.findAll();
-		return users;
+		
+		return service.getAllUserService();
+	}
+	
+	@GetMapping("/user/{id}")
+	public User getuserbyid(@PathVariable Long id ) throws UserNotFoundException
+	{
+	 return service.getuserbyidService(id);
 	}
 	
 	@PutMapping("/UpdateUser")
 	public String updateUser(@RequestBody User user) {
-		User users=userReposistory.findByusername(user.getUsername());
-		users.setPassword(user.getPassword());
-		users.setRole(user.getRole());
-		users.setEmailId(user.getEmailId());
-		userReposistory.save(users);
-		return "Data Updated";
+		return service.updateUserService(user);
 	}
 	
 	@DeleteMapping("/user/{id}")
 	public String deleteUser(@PathVariable Long id)
 	{
-		userReposistory.deleteById(id);
-		return "User deleted";
+		return service.deleteUserService(id);
 	}
 	@PostMapping("/products")
-	public Product createProducts(@RequestBody Product product) {
-		System.out.println(product);
-		product.setId(sequenceGeneratorService.generateSequence(Product.SEQUENCE_NAME));
-		
-		return productReposistory.save(product);
+	public Product createProducts(@RequestBody @Valid Product product) {
+		return service.createProductsService(product);
 	}
 	
 	@GetMapping("/AllProducts")
 	public List<Product> getAllProduct(){
-		List<Product> products=productReposistory.findAll();
-		return products;
+		return service.getAllProductService();
 	}
 	
 	@PutMapping("/UpdateProducts")
 	public String updateProducts(@RequestBody Product product) {
-		Product products=productReposistory.findById(product.getId()).get();
-		products.setBrand(product.getBrand());
-		products.setCategory(product.getCategory());
-		products.setDescription(product.getDescription());
-		products.setImages(product.getImages());
-		products.setStocks(product.getStocks());
-		products.setTitle(product.getTitle());
-		productReposistory.save(products);
-		return "Data Updated";
+		return service.updateProductsService(product);
 	}
 
 	@DeleteMapping("/product/{id}")
 	public String deleteProduct(@PathVariable Long id)
 	{
-		productReposistory.deleteById(id);
-		return "Product deleted";
+		return service.deleteProductService(id);
 	}
 	
 }
